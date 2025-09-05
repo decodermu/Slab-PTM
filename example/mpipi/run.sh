@@ -1,9 +1,4 @@
 #! /bin/bash
-#SBATCH -J A2_chose6
-#SBATCH -p gpu_l40,gpu_l48
-#SBATCH -n 8
-#SBATCH -N 1
-#SBATCH --gres=gpu:1
 
 sys_name="A2"
 temp=300
