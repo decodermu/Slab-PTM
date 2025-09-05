@@ -1,0 +1,13 @@
+name: slab_ptm
+dependencies:
+  - python=3.8
+  - jinja2
+  - matplotlib
+  - notebook
+  - numpy
+  - pandas
+  - scipy
+  - openpyxl 
+  - conda-forge::openmm==7.5
+  - conda-forge::mdtraj==1.9.8
+  - conda-forge::mdanalysis==1.1.1
