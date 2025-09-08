@@ -254,9 +254,38 @@ def add_mu(workbook,sheet_name="mu"):
 
 
 if __name__ == "__main__":
-    factor_path = "factors.xlsx"
-    input_path = "mpipi_parms.xlsx"
-    output_path = "mpipi_ptm_parms.xlsx"
+    import argparse
+    import os
+    parser = argparse.ArgumentParser(
+        description="For Mpipi like force fields.\n Patch your own ptm parameter according to the given Mpipi model parameter file.\n \
+        The example of the input parameter filecould be seen as mpipi_parms.xlsx.\n \
+        Please make sure the input file has the same format with mpipi_parms.xlsx."
+    )
+    parser.add_argument(
+        "--input_path", 
+        type=str,
+        help="The input HPS force field parameter file. (xlsx format)")
+    parser.add_argument(
+        "--output_path",
+        type=str,
+        help="The patched ptm Mpipi force field parameter file."
+    )
+    parser.add_argument(
+        "--factor_path",
+        type=str,
+        default="factors.xlsx",
+        help="The file that contains the scaling factors."
+    )
+    args = parser.parse_args()
+    factor_path = args.factor_path
+    input_path = args.input_path
+    output_path = args.output_path
+    # check
+    if not os.path.isfile(factor_path):
+        parser.error(f"ERROR: factor file does not exist: {factor_path}")
+    if not os.path.isfile(input_path):
+        parser.error(f"ERROR input file does not exist: {input_path}")
+
     eps_f,s_f = read_factors(factor_path)
     workbook = openpyxl.load_workbook(input_path)
     workbook = add_eps(workbook,eps_f)
@@ -264,3 +293,4 @@ if __name__ == "__main__":
     workbook = add_s(workbook,s_f)
     workbook = add_mu(workbook)
     workbook.save(output_path)
+    print(f"Patched file: {output_path}")
